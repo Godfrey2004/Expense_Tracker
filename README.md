@@ -98,4 +98,4 @@ Personalize your app and keep your financial data safe from prying eyes.
   * **Data Backup:** Because ExpenseFlow is 100% offline, your data stays on your phone. Tap **"Backup Data"** to download a save file. You can use **"Restore Data"** on a new device to instantly get all your transactions and settings back!
 
 ---
-*Built with ❤️ by Godfrey J.*
+

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'expenseflow-v3';
+const CACHE_NAME = 'expenseflow-v4';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -13,9 +13,7 @@ const ASSETS_TO_CACHE = [
     './icon-512.png',
     'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap',
     'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
-    'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js',
-    'https://fonts.gstatic.com/s/outfit/v11/QId1DYmqrI5-qXJha_c17w.woff2',
-    'https://fonts.gstatic.com/s/materialsymbolsrounded/v213/syWh-yNqzgf2bNDFB3EtGE0vTuvf15qAUB7rY6631H21n87f4q4q.woff2'
+    'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -53,10 +51,10 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 }
                 return fetch(event.request).then((networkResponse) => {
-                    if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+                    if (!networkResponse || networkResponse.status !== 200 && networkResponse.status !== 0) {
                         return networkResponse;
                     }
-                    // Dynamically cache new assets
+                    // Dynamically cache new assets (including external fonts)
                     const responseToCache = networkResponse.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseToCache);
