@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="tx-details">
                     <h4 style="display: flex; align-items: center; gap: 4px;">${catName}${favHtml}${receiptHtml}${recHtml}</h4>
-                    <p style="font-size: 11px;">${new Date(tx.timestamp).toLocaleDateString()}${tagsHtml}</p>
+                    <p style="font-size: 11px;">${new Date(tx.timestamp).toLocaleDateString('en-GB')}${tagsHtml}</p>
                 </div>
                 <div class="tx-amount ${isIncome ? 'positive' : 'negative'}">
                     ${isIncome ? '+' : '-'}${window.formatCurrency(tx.amount)}
@@ -777,6 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         currentExpenses = await expenseDB.getAllExpenses();
+        window.currentExpenses = currentExpenses;
         applyFiltersAndSort();
         // If analytics tab is currently visible, refresh it
         if (document.getElementById('analytics-view')?.classList.contains('active')) {

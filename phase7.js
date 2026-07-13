@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary);">
                     <span>Target: ${fmt(goal.target)}</span>
-                    <span>Date: ${new Date(goal.date).toLocaleDateString()}</span>
+                    <span>Date: ${new Date(goal.date).toLocaleDateString('en-GB')}</span>
                 </div>
                 <div style="width: 100%; height: 8px; background: var(--border-color); border-radius: var(--radius-full); overflow: hidden; margin-top: 4px;">
                     <div style="width: ${pct}%; height: 100%; background: var(--accent-gradient); border-radius: var(--radius-full); transition: width 0.5s ease;"></div>
@@ -628,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const requiredDaily = rem / daysLeft;
                     aiInsights.push({
                         emoji: '🎯',
-                        text: `To achieve <strong>"${goal.name}"</strong> by ${new Date(goal.date).toLocaleDateString()}, you need to save an average of <strong>${window.formatCurrency(requiredDaily)}/day</strong>.`
+                        text: `To achieve <strong>"${goal.name}"</strong> by ${new Date(goal.date).toLocaleDateString('en-GB')}, you need to save an average of <strong>${window.formatCurrency(requiredDaily)}/day</strong>.`
                     });
                 }
             }
