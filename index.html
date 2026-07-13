@@ -1035,5 +1035,15 @@
     <script src="phase4.js"></script>
     <script src="phase5.js"></script>
     <script src="phase7.js"></script>
+    <script>
+        // Register Service Worker inline for PWABuilder compatibility
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered successfully:', reg.scope))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+    </script>
 </body>
 </html>
