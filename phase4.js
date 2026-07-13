@@ -18,8 +18,7 @@ function saveBudgets(obj) {
 
 // ─── Share expense data from app.js (polling) ───────────────
 function getExpenses() {
-    // currentExpenses is defined in app.js; gracefully fallback
-    return typeof currentExpenses !== 'undefined' ? currentExpenses : [];
+    return window.currentExpenses || [];
 }
 
 // ==============================================================
