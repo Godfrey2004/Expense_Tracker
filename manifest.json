@@ -1,0 +1,40 @@
+{
+    "id": "/",
+    "name": "ExpenseFlow",
+    "short_name": "ExpenseFlow",
+    "description": "Premium personal finance and expense tracking manager",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#09090b",
+    "theme_color": "#09090b",
+    "orientation": "portrait-primary",
+    "categories": ["finance", "productivity"],
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Add Transaction",
+            "short_name": "New",
+            "description": "Log a new transaction",
+            "url": "./index.html?action=add"
+        },
+        {
+            "name": "View Reports",
+            "short_name": "Reports",
+            "description": "View monthly spending reports",
+            "url": "./index.html?action=reports"
+        }
+    ]
+}
