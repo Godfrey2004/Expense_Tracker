@@ -32,7 +32,79 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Scroll to top
         document.getElementById('main-content').scrollTop = 0;
+
+        // Push state for back navigation
+        if (!window.isNavigatingBack) {
+            history.pushState({ view: targetId }, '', '');
+        }
     }
+    
+    // --- GESTURE NAVIGATION ---
+    history.replaceState({ view: 'home-view' }, '', '');
+
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.view) {
+            window.isNavigatingBack = true;
+            switchView(e.state.view);
+            window.isNavigatingBack = false;
+        }
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let mainContent = document.getElementById('main-content');
+    
+    // Create pull-to-refresh indicator
+    let ptrIndicator = document.createElement('div');
+    ptrIndicator.id = 'ptr-indicator';
+    ptrIndicator.innerHTML = '<span class="material-symbols-rounded">refresh</span>';
+    mainContent.style.position = 'relative';
+    mainContent.appendChild(ptrIndicator);
+
+    mainContent.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    mainContent.addEventListener('touchmove', (e) => {
+        let touchY = e.changedTouches[0].screenY;
+        let diffY = touchY - touchStartY;
+        if (mainContent.scrollTop === 0 && diffY > 0) {
+            let translateY = Math.min(diffY * 0.4, 60);
+            ptrIndicator.style.top = (translateY - 40) + 'px';
+        }
+    }, {passive: true});
+
+    mainContent.addEventListener('touchend', (e) => {
+        let touchEndX = e.changedTouches[0].screenX;
+        let touchEndY = e.changedTouches[0].screenY;
+        let diffX = touchEndX - touchStartX;
+        let diffY = touchEndY - touchStartY;
+
+        // Swipe right to go back
+        if (diffX > 80 && Math.abs(diffY) < 50) {
+            if (history.state && history.state.view !== 'home-view') {
+                history.back();
+            }
+        }
+
+        // Pull to refresh
+        if (mainContent.scrollTop === 0 && diffY > 80 && Math.abs(diffX) < 50) {
+            ptrIndicator.classList.add('ptr-spinning');
+            ptrIndicator.style.top = '20px';
+            setTimeout(() => {
+                if (typeof loadAndRenderTransactions === 'function') {
+                    loadAndRenderTransactions();
+                }
+                setTimeout(() => {
+                    ptrIndicator.classList.remove('ptr-spinning');
+                    ptrIndicator.style.top = '-40px';
+                }, 500);
+            }, 500);
+        } else {
+            ptrIndicator.style.top = '-40px';
+        }
+    });
     
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {

@@ -1322,14 +1322,29 @@ input[type="radio"]:checked + .tx-type-label {
     40%, 80% { transform: translateX(10px); }
 }
 
-.pin-key {
-    transition: background 0.15s ease, transform 0.1s ease;
+#ptr-indicator {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-md);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    z-index: 1000;
+    transition: top 0.2s;
+    color: var(--accent-color);
 }
-.pin-key:active {
-    background: var(--accent-glow) !important;
-    transform: scale(0.9);
+#ptr-indicator .material-symbols-rounded {
+    font-size: 20px;
 }
-
-.pin-dot {
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+.ptr-spinning .material-symbols-rounded {
+    animation: ptr-spin 1s linear infinite;
+}
+@keyframes ptr-spin {
+    100% { transform: rotate(360deg); }
 }

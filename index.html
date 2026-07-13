@@ -517,14 +517,7 @@
                         </select>
                     </div>
 
-                    <div class="settings-item glass-item" style="display: flex; align-items: center;">
-                        <span class="material-symbols-rounded" style="color: var(--accent-color);">lock</span>
-                        <div class="settings-text" style="flex: 1;">
-                            <h4>PIN Security</h4>
-                            <p id="pin-status-text">Inactive</p>
-                        </div>
-                        <button class="btn-primary" id="btn-toggle-pin" style="width: auto; margin: 0; padding: 6px 12px; font-size: 13px;">Setup</button>
-                    </div>
+
 
                     <h3 class="settings-group-title" style="margin-top: var(--space-xl);">Data Management</h3>
                     <div class="settings-item glass-item" id="setting-backup" style="cursor: pointer;">
@@ -893,38 +886,7 @@
 
 
 
-        <!-- PIN Lock Screen Overlay -->
-        <div id="pin-lock-overlay" class="modal-overlay" style="z-index: 2000; display: none; background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(20px);">
-            <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: var(--space-xl); width: 100%;">
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                    <span class="material-symbols-rounded" style="font-size: 48px; color: var(--accent-color);">lock</span>
-                    <h2 style="font-size: 20px; font-weight: 600;">Enter App PIN</h2>
-                    <p id="pin-lock-msg" style="color: var(--text-secondary); font-size: 13px;">Secure Offline Access</p>
-                </div>
-                
-                <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-md);">
-                    <div class="pin-dot" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-color);"></div>
-                    <div class="pin-dot" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-color);"></div>
-                    <div class="pin-dot" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-color);"></div>
-                    <div class="pin-dot" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-color);"></div>
-                </div>
 
-                <div class="pin-keyboard" style="display: grid; grid-template-columns: repeat(3, 70px); gap: var(--space-md); justify-content: center;">
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">1</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">2</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">3</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">4</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">5</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">6</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">7</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">8</button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">9</button>
-                    <button class="pin-key" style="height: 70px; visibility: hidden; pointer-events: none;"></button>
-                    <button class="pin-key glass-item" style="height: 70px; border-radius: 50%; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);">0</button>
-                    <button class="pin-key glass-item" id="pin-backspace" style="height: 70px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-glass);"><span class="material-symbols-rounded">backspace</span></button>
-                </div>
-            </div>
-        </div>
 
         <!-- Custom Alert / Confirm Dialog -->
         <div class="modal-overlay" id="custom-dialog-modal" style="z-index: 1100;">
