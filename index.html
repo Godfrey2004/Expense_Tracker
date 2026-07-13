@@ -132,24 +132,7 @@
                     </div>
                 </div>
 
-                <div class="quick-actions">
-                    <button class="action-btn">
-                        <span class="material-symbols-rounded">send</span>
-                        <p>Send</p>
-                    </button>
-                    <button class="action-btn">
-                        <span class="material-symbols-rounded">download</span>
-                        <p>Receive</p>
-                    </button>
-                    <button class="action-btn">
-                        <span class="material-symbols-rounded">account_balance_wallet</span>
-                        <p>Top Up</p>
-                    </button>
-                    <button class="action-btn">
-                        <span class="material-symbols-rounded">more_horiz</span>
-                        <p>More</p>
-                    </button>
-                </div>
+
 
                 <!-- Spending Insight Pills -->
                 <div class="insight-pills">
@@ -943,37 +926,7 @@
             </div>
         </div>
 
-        <!-- Onboarding Pager Overlay -->
-        <div id="onboarding-overlay" class="modal-overlay" style="z-index: 1500; display: none;">
-            <div class="modal-content glass-card" style="max-width: 450px; text-align: center; padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-lg);">
-                <div class="onboarding-slides">
-                    <div class="onboarding-slide active" data-slide="0">
-                        <span class="material-symbols-rounded" style="font-size: 64px; color: var(--accent-color); margin-bottom: var(--space-md);">rocket_launch</span>
-                        <h2 style="font-size: 24px; font-weight: 700; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Welcome to ExpenseFlow</h2>
-                        <p style="color: var(--text-secondary); margin-top: 12px; font-size: 15px;">Your financial life, beautifully organized. Completely offline-first and secure.</p>
-                    </div>
-                    <div class="onboarding-slide" data-slide="1" style="display: none;">
-                        <span class="material-symbols-rounded" style="font-size: 64px; color: var(--accent-color); margin-bottom: var(--space-md);">account_balance_wallet</span>
-                        <h2 style="font-size: 24px; font-weight: 700;">Multiple Wallets &amp; Budgets</h2>
-                        <p style="color: var(--text-secondary); margin-top: 12px; font-size: 15px;">Create separate accounts for cash, card, and savings. Set custom category budgets.</p>
-                    </div>
-                    <div class="onboarding-slide" data-slide="2" style="display: none;">
-                        <span class="material-symbols-rounded" style="font-size: 64px; color: var(--accent-color); margin-bottom: var(--space-md);">analytics</span>
-                        <h2 style="font-size: 24px; font-weight: 700;">Advanced Analytics</h2>
-                        <p style="color: var(--text-secondary); margin-top: 12px; font-size: 15px;">View detailed summaries, interactive charts, calendar logs, and smart local insights.</p>
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: center; gap: var(--space-sm);">
-                    <span class="onboard-dot active" style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-color);"></span>
-                    <span class="onboard-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border-color);"></span>
-                    <span class="onboard-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border-color);"></span>
-                </div>
-                <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md); width: 100%;">
-                    <button class="btn-primary" id="onboard-skip-btn" style="background: var(--bg-glass); color: var(--text-primary); border: 1px solid var(--border-color); box-shadow: none; margin-top: 0; flex: 1;">Skip</button>
-                    <button class="btn-primary" id="onboard-next-btn" style="margin-top: 0; flex: 1;">Next</button>
-                </div>
-            </div>
-        </div>
+
 
         <!-- PIN Lock Screen Overlay -->
         <div id="pin-lock-overlay" class="modal-overlay" style="z-index: 2000; display: none; background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(20px);">

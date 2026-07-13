@@ -5,58 +5,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ==========================================
-    // 1. PREMIUM ONBOARDING SYSTEM
-    // ==========================================
-    const onboardingOverlay = document.getElementById('onboarding-overlay');
-    const onboardSkip = document.getElementById('onboard-skip-btn');
-    const onboardNext = document.getElementById('onboard-next-btn');
-    const slides = document.querySelectorAll('.onboarding-slide');
-    const dots = document.querySelectorAll('.onboard-dot');
-    let currentSlide = 0;
-
-    if (onboardingOverlay && !localStorage.getItem('ef_onboarded')) {
-        onboardingOverlay.style.display = 'flex';
-        onboardingOverlay.style.opacity = '1';
-    }
-
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.style.display = i === index ? 'block' : 'none';
-        });
-        dots.forEach((dot, i) => {
-            dot.className = i === index ? 'onboard-dot active' : 'onboard-dot';
-            dot.style.background = i === index ? 'var(--accent-color)' : 'var(--border-color)';
-        });
-        if (index === slides.length - 1) {
-            onboardNext.textContent = 'Finish';
-        } else {
-            onboardNext.textContent = 'Next';
-        }
-    }
-
-    if (onboardNext) {
-        onboardNext.addEventListener('click', () => {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                showSlide(currentSlide);
-            } else {
-                completeOnboarding();
-            }
-        });
-    }
-
-    if (onboardSkip) {
-        onboardSkip.addEventListener('click', completeOnboarding);
-    }
-
-    function completeOnboarding() {
-        localStorage.setItem('ef_onboarded', 'true');
-        onboardingOverlay.style.opacity = '0';
-        setTimeout(() => {
-            onboardingOverlay.style.display = 'none';
-        }, 300);
-    }
 
 
     // ==========================================
