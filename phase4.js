@@ -22,116 +22,6 @@ function getExpenses() {
 }
 
 // ==============================================================
-// 1. CALENDAR
-// ==============================================================
-let calViewDate = new Date();
-let calSelectedDate = null;
-
-function initCalendar() {
-    document.getElementById('cal-prev')?.addEventListener('click', () => {
-        calViewDate.setMonth(calViewDate.getMonth() - 1);
-        renderCalendar();
-    });
-    document.getElementById('cal-next')?.addEventListener('click', () => {
-        calViewDate.setMonth(calViewDate.getMonth() + 1);
-        renderCalendar();
-    });
-}
-
-function renderCalendar() {
-    const grid     = document.getElementById('cal-grid');
-    const label    = document.getElementById('cal-month-label');
-    if (!grid || !label) return;
-
-    const expenses = getExpenses();
-    const year     = calViewDate.getFullYear();
-    const month    = calViewDate.getMonth();
-    const today    = new Date();
-
-    label.textContent = calViewDate.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
-
-    const firstDay = new Date(year, month, 1).getDay();   // 0=Sun
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    // Build a Set of dates that have transactions in this month
-    const txDates = new Set(
-        expenses
-            .filter(tx => {
-                const d = new Date(tx.date);
-                return d.getFullYear() === year && d.getMonth() === month;
-            })
-            .map(tx => tx.date)
-    );
-
-    grid.innerHTML = '';
-
-    // Empty cells
-    for (let i = 0; i < firstDay; i++) {
-        const blank = document.createElement('div');
-        blank.className = 'cal-day empty';
-        grid.appendChild(blank);
-    }
-
-    // Day cells
-    for (let d = 1; d <= daysInMonth; d++) {
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const cell = document.createElement('div');
-        cell.className = 'cal-day';
-        cell.textContent = d;
-
-        const isToday = (today.getFullYear() === year && today.getMonth() === month && today.getDate() === d);
-        if (isToday) cell.classList.add('today');
-        if (txDates.has(dateStr)) cell.classList.add('has-tx');
-        if (calSelectedDate === dateStr) cell.classList.add('selected');
-
-        cell.addEventListener('click', () => {
-            calSelectedDate = dateStr;
-            renderCalendar();  // Re-render to update selected highlight
-            showDayTransactions(dateStr);
-        });
-
-        grid.appendChild(cell);
-    }
-}
-
-function showDayTransactions(dateStr) {
-    const panel = document.getElementById('cal-day-panel');
-    const list  = document.getElementById('cal-day-list');
-    const title = document.getElementById('cal-day-title');
-    const total = document.getElementById('cal-day-total');
-    if (!panel || !list) return;
-
-    const dayTx = getExpenses().filter(tx => tx.date === dateStr);
-    const d = new Date(dateStr + 'T00:00:00');
-    title.textContent = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
-
-    const dayExpenses = dayTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
-    const dayIncome   = dayTx.filter(t => t.type === 'income').reduce((s, t)  => s + t.amount, 0);
-    total.textContent = dayTx.length === 0 ? '' : `${fmt(dayExpenses)} spent`;
-
-    panel.style.display = 'block';
-
-    if (dayTx.length === 0) {
-        list.innerHTML = `<p style="text-align:center; color: var(--text-secondary); padding: 20px 0;">No transactions on this day.</p>`;
-        return;
-    }
-
-    list.innerHTML = '';
-    dayTx.sort((a, b) => a.time.localeCompare(b.time)).forEach(tx => {
-        const isIncome = tx.type === 'income';
-        const iconMatch = tx.category.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\S+)\s*(.*)/);
-        const icon = iconMatch ? iconMatch[1] : '💰';
-        const catName = iconMatch ? (iconMatch[2] || tx.category) : tx.category;
-        const el = document.createElement('div');
-        el.className = 'transaction-item glass-item';
-        el.innerHTML = `
-            <div class="tx-icon" style="background: ${isIncome ? 'rgba(48,209,88,0.15)' : 'rgba(255,69,58,0.15)'}; color: ${isIncome ? '#30D158' : '#FF453A'}; font-size: 22px;">${icon}</div>
-            <div class="tx-details"><h4>${catName}</h4><p>${tx.time} · ${tx.paymentMethod || ''}</p></div>
-            <div class="tx-amount ${isIncome ? 'positive' : 'negative'}">${isIncome ? '+' : '-'}${fmt(tx.amount)}</div>
-        `;
-        list.appendChild(el);
-    });
-}
 
 // ==============================================================
 // 2. BUDGET
@@ -413,16 +303,14 @@ function downloadFile(filename, type, content) {
 // 4. HOOK INTO VIEW SWITCHING
 // ==============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    initCalendar();
     initBudget();
     initReports();
 
-    // Intercept navigation clicks to refresh calendar/budget/report
+    // Intercept navigation clicks to refresh budget/report
     document.querySelectorAll('.nav-item, .drawer-item').forEach(item => {
         item.addEventListener('click', () => {
             const target = item.getAttribute('data-target');
             setTimeout(() => {
-                if (target === 'calendar-view') renderCalendar();
                 if (target === 'budget-view')   renderBudget();
                 if (target === 'reports-view')  renderReport();
             }, 80);
@@ -433,9 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         const budgetView   = document.getElementById('budget-view');
         const reportsView  = document.getElementById('reports-view');
-        const calendarView = document.getElementById('calendar-view');
         if (budgetView?.classList.contains('active'))   renderBudget();
         if (reportsView?.classList.contains('active'))  renderReport();
-        if (calendarView?.classList.contains('active')) renderCalendar();
     }, 2000);
 });
