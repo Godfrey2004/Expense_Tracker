@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
@@ -108,10 +108,6 @@
                     <span class="material-symbols-rounded">summarize</span>
                     <span>Reports</span>
                 </a>
-                <a href="#" class="drawer-item" data-target="goals-view">
-                    <span class="material-symbols-rounded">ads_click</span>
-                    <span>Savings Goals</span>
-                </a>
                 <a href="#" class="drawer-item" data-target="wallets-view">
                     <span class="material-symbols-rounded">account_balance</span>
                     <span>Wallets &amp; Accounts</span>
@@ -210,77 +206,36 @@
                     <input type="text" id="search-tx" class="glass-input" placeholder="Search transactions..." style="padding-left: 36px; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23a1a1aa\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><circle cx=\'11\' cy=\'11\' r=\'8\'></circle><line x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'></line></svg>'); background-repeat: no-repeat; background-position: 10px center;">
                 </div>
 
-                <div id="filter-sort-panel" style="display: none; margin-bottom: var(--space-md); padding: var(--space-md); background: var(--bg-surface); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-sm);">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Sort By</label>
-                            <select id="sort-by" class="glass-input" style="padding: 6px; font-size: 12px;">
-                                <option value="date-desc">Date (Newest)</option>
-                                <option value="date-asc">Date (Oldest)</option>
-                                <option value="amount-desc">Amount (Highest)</option>
-                                <option value="amount-asc">Amount (Lowest)</option>
-                            </select>
+                                <div id="filter-sort-panel" style="display: none; margin-bottom: var(--space-md);">
+                    <div class="filter-panel-inner">
+                        <div class="filter-row">
+                            <div class="filter-item">
+                                <label class="filter-label">Sort by Date</label>
+                                <select id="sort-by" class="glass-input filter-select">
+                                    <option value="date-desc">Newest First</option>
+                                    <option value="date-asc">Oldest First</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label class="filter-label">Category</label>
+                                <select id="filter-category" class="glass-input filter-select">
+                                    <option value="all">All Categories</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label class="filter-label">Payment Method</label>
+                                <select id="filter-payment" class="glass-input filter-select">
+                                    <option value="all">All Methods</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Card">Card</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Filter Type</label>
-                            <select id="filter-type" class="glass-input" style="padding: 6px; font-size: 12px;">
-                                <option value="all">All</option>
-                                <option value="expense">Expenses Only</option>
-                                <option value="income">Income Only</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Category</label>
-                            <select id="filter-category" class="glass-input" style="padding: 6px; font-size: 12px;">
-                                <option value="all">All Categories</option>
-                                <option value="🍔 Food & Beverage">🍔 Food & Beverage</option>
-                                <option value="🚗 Transport">🚗 Transport</option>
-                                <option value="🛍️ Shopping">🛍️ Shopping</option>
-                                <option value="🎬 Entertainment">🎬 Entertainment</option>
-                                <option value="🏠 Housing">🏠 Housing</option>
-                                <option value="💼 Salary">💼 Salary</option>
-                                <option value="🔄 Other">🔄 Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Wallet</label>
-                            <select id="filter-wallet" class="glass-input" style="padding: 6px; font-size: 12px;">
-                                <option value="all">All Wallets</option>
-                                <option value="Main Wallet">Main Wallet</option>
-                                <option value="Savings">Savings</option>
-                                <option value="Business">Business</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Min Amount</label>
-                            <input type="number" id="filter-min-amt" class="glass-input" style="padding: 6px; font-size: 12px;" placeholder="Min">
-                        </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Max Amount</label>
-                            <input type="number" id="filter-max-amt" class="glass-input" style="padding: 6px; font-size: 12px;" placeholder="Max">
-                        </div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">Start Date</label>
-                            <input type="date" id="filter-start-date" class="glass-input" style="padding: 6px; font-size: 12px;">
-                        </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-secondary);">End Date</label>
-                            <input type="date" id="filter-end-date" class="glass-input" style="padding: 6px; font-size: 12px;">
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-                        <input type="checkbox" id="filter-favorites" style="width: 16px; height: 16px; accent-color: var(--accent-color);">
-                        <label for="filter-favorites" style="font-size: 12px; color: var(--text-primary); cursor: pointer;">Show Favorites Only ⭐</label>
                     </div>
                 </div>
-
-                <div class="transaction-list" id="all-transactions-list">
+<div class="transaction-list" id="all-transactions-list">
                     <!-- Transactions will be populated here dynamically -->
                     <p style="text-align: center; color: var(--text-secondary); margin-top: var(--space-xl);">No transactions yet.</p>
                 </div>
@@ -600,17 +555,6 @@
                 </div>
             </section>
 
-            <!-- Savings Goals View -->
-            <section id="goals-view" class="view">
-                <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h2>Savings Goals</h2>
-                    <button class="btn-primary" id="btn-add-goal" style="width: auto; padding: 8px 16px; margin: 0;">+ Goal</button>
-                </div>
-                <div id="goals-list" class="goals-container" style="display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-md);">
-                    <!-- Dynamic goals list here -->
-                </div>
-            </section>
-
             <!-- Wallets & Accounts View -->
             <section id="wallets-view" class="view">
                 <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
@@ -727,17 +671,16 @@
                             </div>
                         </div>
 
-                        <div class="input-group">
+                                                <div class="input-group">
                             <label>Category</label>
-                            <select id="tx-category" class="glass-input" required>
-                                <option value="🍔 Food & Beverage">🍔 Food & Beverage</option>
-                                <option value="🚗 Transport">🚗 Transport</option>
-                                <option value="🛍️ Shopping">🛍️ Shopping</option>
-                                <option value="🎬 Entertainment">🎬 Entertainment</option>
-                                <option value="🏠 Housing">🏠 Housing</option>
-                                <option value="💼 Salary">💼 Salary</option>
-                                <option value="🔄 Other">🔄 Other</option>
-                            </select>
+                            <!-- Hidden real input for form submission -->
+                            <input type="hidden" id="tx-category" value="&#x1F354; Food &amp; Beverage" required>
+                            <!-- Modern category picker trigger -->
+                            <button type="button" id="cat-picker-trigger" class="cat-picker-trigger">
+                                <span id="cat-picker-display-emoji" class="cat-trigger-emoji">&#x1F354;</span>
+                                <span id="cat-picker-display-name" class="cat-trigger-name">Food &amp; Beverage</span>
+                                <span class="material-symbols-rounded cat-trigger-chevron">expand_more</span>
+                            </button>
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
@@ -862,37 +805,6 @@
                 </div>
             </div>
         </div>
-                <!-- Goal Add/Edit Modal -->
-        <div class="modal-overlay" id="goal-modal">
-            <div class="modal-content glass-card">
-                <div class="modal-header">
-                    <h3 id="goal-modal-title">New Savings Goal</h3>
-                    <button class="icon-btn close-modal" aria-label="Close Goal Modal">
-                        <span class="material-symbols-rounded">close</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group">
-                        <label>Goal Name</label>
-                        <input type="text" id="goal-name-input" placeholder="e.g. Dream Car" class="glass-input" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Target Amount</label>
-                        <input type="number" id="goal-target-input" placeholder="e.g. 100000" class="glass-input" required min="1">
-                    </div>
-                    <div class="input-group">
-                        <label>Current Saved</label>
-                        <input type="number" id="goal-current-input" placeholder="e.g. 5000" class="glass-input" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Target Date</label>
-                        <input type="date" id="goal-date-input" class="glass-input" required>
-                    </div>
-                    <button class="btn-primary" id="save-goal-btn">Save Goal</button>
-                </div>
-            </div>
-        </div>
-
         <!-- Wallet Add/Edit Modal -->
         <div class="modal-overlay" id="wallet-modal">
             <div class="modal-content glass-card">
@@ -946,11 +858,68 @@
         </div>
 
     </div>
+
+    <!-- ============================
+         CATEGORY PICKER BOTTOM SHEET
+         ============================ -->
+    <div id="cat-picker-sheet" class="cat-sheet-overlay">
+        <div class="cat-sheet-backdrop" id="cat-sheet-backdrop"></div>
+        <div class="cat-sheet-content">
+            <!-- Handle bar -->
+            <div class="cat-sheet-handle"></div>
+
+            <!-- Header -->
+            <div class="cat-sheet-header">
+                <h3>Choose Category</h3>
+                <button type="button" class="icon-btn" id="cat-sheet-close">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+
+            <!-- Search -->
+            <div class="cat-search-wrap">
+                <span class="material-symbols-rounded cat-search-icon">search</span>
+                <input type="text" id="cat-search-input" class="cat-search-input" placeholder="Search categories...">
+            </div>
+
+            <!-- Category Grid -->
+            <div class="cat-grid-scroll">
+                <div id="cat-grid" class="cat-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Add Custom Category -->
+                <button type="button" id="cat-add-custom-btn" class="cat-add-custom-btn">
+                    <span class="material-symbols-rounded">add_circle</span>
+                    <span>Create Custom Category</span>
+                </button>
+
+                <!-- Custom category creation form (hidden by default) -->
+                <div id="cat-custom-form" class="cat-custom-form" style="display:none;">
+                    <div class="cat-custom-emoji-row">
+                        <p class="cat-custom-label">Pick an emoji</p>
+                        <div class="cat-emoji-picker" id="cat-emoji-picker">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <div class="cat-custom-name-row">
+                        <p class="cat-custom-label">Category name</p>
+                        <input type="text" id="cat-custom-name" class="cat-custom-name-input" placeholder="e.g. Gym, Pets...">
+                    </div>
+                    <button type="button" id="cat-custom-save-btn" class="cat-custom-save-btn">
+                        <span class="material-symbols-rounded">check</span>
+                        Save Category
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="db.js"></script>
     <script src="app.js"></script>
     <script src="phase4.js"></script>
     <script src="phase5.js"></script>
     <script src="phase7.js"></script>
+    <script src="category-picker.js"></script>
     <script>
         // Remove preloader when all assets are loaded
         window.addEventListener('load', () => {

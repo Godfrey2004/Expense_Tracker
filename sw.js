@@ -1,4 +1,4 @@
-const CACHE_NAME = 'expenseflow-v7';
+const CACHE_NAME = 'expenseflow-v8';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -8,6 +8,7 @@ const ASSETS_TO_CACHE = [
     './phase4.js',
     './phase5.js',
     './phase7.js',
+    './category-picker.js',
     './manifest.json',
     './icon-192.png',
     './icon-512.png',

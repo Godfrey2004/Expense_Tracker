@@ -219,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const expenses = await expenseDB.getAllExpenses();
             const profileName = localStorage.getItem('profileName') || 'User';
             const budgets = localStorage.getItem('ef_budgets') || '{}';
-            const goals = localStorage.getItem('ef_goals') || '[]';
             const wallets = localStorage.getItem('ef_wallets') || '["Main Wallet", "Savings", "Business"]';
             
             const backupData = {
@@ -229,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 settings: {
                     profileName,
                     budgets: JSON.parse(budgets),
-                    goals: JSON.parse(goals),
                     wallets: JSON.parse(wallets),
                     themeAccent: localStorage.getItem('theme-accent') || 'zinc',
                     theme: localStorage.getItem('theme'),
@@ -294,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.settings) {
                     if (data.settings.profileName) localStorage.setItem('profileName', data.settings.profileName);
                     if (data.settings.budgets) localStorage.setItem('ef_budgets', JSON.stringify(data.settings.budgets));
-                    if (data.settings.goals) localStorage.setItem('ef_goals', JSON.stringify(data.settings.goals));
                     if (data.settings.wallets) localStorage.setItem('ef_wallets', JSON.stringify(data.settings.wallets));
                     if (data.settings.themeAccent) localStorage.setItem('theme-accent', data.settings.themeAccent);
                     if (data.settings.currency) {
@@ -335,7 +332,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.removeItem('ef_currency');
                     localStorage.removeItem('profileName');
                     localStorage.removeItem('profileImage');
-                    localStorage.removeItem('ef_goals');
                     localStorage.removeItem('ef_wallets');
                     localStorage.removeItem('ef_pin');
                     localStorage.removeItem('ef_onboarded');

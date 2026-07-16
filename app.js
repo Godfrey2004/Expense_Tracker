@@ -207,6 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.getElementById('tx-recurring')) document.getElementById('tx-recurring').value = 'none';
         if (document.getElementById('smart-tags-container')) document.getElementById('smart-tags-container').innerHTML = '';
         
+        // Reset the modern category picker to default
+        if (window.categoryPicker) window.categoryPicker.setValue('🍔 Food & Beverage');
+        
         const now = new Date();
         if(typeof txDateInput !== 'undefined') txDateInput.value = now.toISOString().split('T')[0];
         if(typeof txTimeInput !== 'undefined') txTimeInput.value = now.toTimeString().split(' ')[0].substring(0, 5);
@@ -316,14 +319,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterSortPanel = document.getElementById('filter-sort-panel');
     const searchTxInput = document.getElementById('search-tx');
     const sortByInput = document.getElementById('sort-by');
-    const filterTypeInput = document.getElementById('filter-type');
     
     let currentExpenses = [];
+    let panelOpen = false;
 
-    // Toggle Filter Panel
-    if (sortFilterBtn) {
+    // Toggle Filter Panel — controlled via JS flag, not inline style collision
+    if (sortFilterBtn && filterSortPanel) {
         sortFilterBtn.addEventListener('click', () => {
-            filterSortPanel.style.display = filterSortPanel.style.display === 'none' ? 'block' : 'none';
+            panelOpen = !panelOpen;
+            filterSortPanel.style.display = panelOpen ? 'block' : 'none';
+            sortFilterBtn.classList.toggle('active', panelOpen);
         });
     }
 
@@ -379,27 +384,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // Search
         const searchTerm = searchTxInput ? searchTxInput.value.toLowerCase() : '';
         if (searchTerm) {
-            filtered = filtered.filter(tx => 
-                tx.category.toLowerCase().includes(searchTerm) || 
+            filtered = filtered.filter(tx =>
+                tx.category.toLowerCase().includes(searchTerm) ||
                 (tx.notes && tx.notes.toLowerCase().includes(searchTerm)) ||
                 (tx.tags && tx.tags.some(t => t.toLowerCase().includes(searchTerm)))
             );
         }
 
-        // Filter Type
-        const fType = filterTypeInput ? filterTypeInput.value : 'all';
-        if (fType !== 'all') {
-            filtered = filtered.filter(tx => tx.type === fType);
+        // Category filter
+        const filterCatEl = document.getElementById('filter-category');
+        const catVal = filterCatEl ? filterCatEl.value : 'all';
+        if (catVal !== 'all') {
+            filtered = filtered.filter(tx => tx.category === catVal);
         }
 
-        // Sort
+        // Payment method filter
+        const filterPayEl = document.getElementById('filter-payment');
+        const payVal = filterPayEl ? filterPayEl.value : 'all';
+        if (payVal !== 'all') {
+            filtered = filtered.filter(tx => (tx.paymentMethod || '') === payVal);
+        }
+
+        // Sort by date
         const sortBy = sortByInput ? sortByInput.value : 'date-desc';
         filtered.sort((a, b) => {
-            if (sortBy === 'date-desc') return b.timestamp - a.timestamp;
             if (sortBy === 'date-asc') return a.timestamp - b.timestamp;
-            if (sortBy === 'amount-desc') return b.amount - a.amount;
-            if (sortBy === 'amount-asc') return a.amount - b.amount;
-            return 0;
+            return b.timestamp - a.timestamp; // default: newest first
         });
 
         renderList(filtered, allTransactionsList);
@@ -408,7 +418,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchTxInput) searchTxInput.addEventListener('input', applyFiltersAndSort);
     if (sortByInput) sortByInput.addEventListener('change', applyFiltersAndSort);
-    if (filterTypeInput) filterTypeInput.addEventListener('change', applyFiltersAndSort);
+    // Attach filter-category and filter-payment listeners (elements exist in DOM at this point)
+    const _fc = document.getElementById('filter-category');
+    const _fp = document.getElementById('filter-payment');
+    if (_fc) _fc.addEventListener('change', applyFiltersAndSort);
+    if (_fp) _fp.addEventListener('change', applyFiltersAndSort);
 
     function renderList(transactions, container) {
         if (!container) return;
@@ -463,6 +477,8 @@ document.addEventListener('DOMContentLoaded', () => {
         txDateInput.value = tx.date;
         txTimeInput.value = tx.time;
         txCategoryInput.value = tx.category;
+        // Sync the modern category picker UI
+        if (window.categoryPicker) window.categoryPicker.setValue(tx.category);
         txPaymentMethodInput.value = tx.paymentMethod || 'Cash';
         txWalletInput.value = tx.wallet || 'Main Wallet';
         txTagsInput.value = (tx.tags || []).join(', ');

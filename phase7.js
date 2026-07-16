@@ -9,167 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 3. SAVINGS GOALS SYSTEM
-    // ==========================================
-    const goalsList = document.getElementById('goals-list');
-    const btnAddGoal = document.getElementById('btn-add-goal');
-    const goalModal = document.getElementById('goal-modal');
-    const saveGoalBtn = document.getElementById('save-goal-btn');
-
-    const goalNameInput = document.getElementById('goal-name-input');
-    const goalTargetInput = document.getElementById('goal-target-input');
-    const goalCurrentInput = document.getElementById('goal-current-input');
-    const goalDateInput = document.getElementById('goal-date-input');
-
-    function getGoals() {
-        try {
-            return JSON.parse(localStorage.getItem('ef_goals')) || [];
-        } catch {
-            return [];
-        }
-    }
-
-    function saveGoals(goalsList) {
-        localStorage.setItem('ef_goals', JSON.stringify(goalsList));
-    }
-
-    if (btnAddGoal) {
-        btnAddGoal.addEventListener('click', () => {
-            if (goalModal) {
-                goalModal.classList.add('active');
-                goalNameInput.value = '';
-                goalTargetInput.value = '';
-                goalCurrentInput.value = '0';
-                goalDateInput.value = new Date().toISOString().split('T')[0];
-            }
-        });
-    }
-
-    if (saveGoalBtn) {
-        saveGoalBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const name = goalNameInput.value.trim();
-            const target = parseFloat(goalTargetInput.value);
-            const current = parseFloat(goalCurrentInput.value) || 0;
-            const date = goalDateInput.value;
-
-            if (!name || isNaN(target) || target <= 0 || !date) {
-                window.showToast?.("Please fill out all fields correctly", "warning");
-                return;
-            }
-
-            const newGoal = {
-                id: Date.now().toString(),
-                name,
-                target,
-                current,
-                date
-            };
-
-            const list = getGoals();
-            list.push(newGoal);
-            saveGoals(list);
-
-            if (goalModal) goalModal.classList.remove('active');
-            renderGoals();
-            window.showToast?.("Goal added successfully", "savings");
-        });
-    }
-
-    function renderGoals() {
-        if (!goalsList) return;
-        goalsList.innerHTML = '';
-
-        const list = getGoals();
-        if (list.length === 0) {
-            goalsList.innerHTML = `<p style="text-align: center; color: var(--text-secondary); margin-top: var(--space-xl);">No savings goals yet. Add one to track your dreams!</p>`;
-            return;
-        }
-
-        const fmt = (v) => window.formatCurrency(v);
-
-        list.forEach(goal => {
-            const pct = Math.min(((goal.current / goal.target) * 100), 100).toFixed(0);
-            const card = document.createElement('div');
-            card.className = 'glass-card';
-            card.style.padding = 'var(--space-md)';
-            card.style.display = 'flex';
-            card.style.flexDirection = 'column';
-            card.style.gap = '8px';
-
-            const remaining = goal.target - goal.current;
-            const remainingText = remaining <= 0 ? "Goal achieved! 🎉" : `${fmt(remaining)} remaining`;
-
-            card.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary);">${goal.name}</h3>
-                    <button class="icon-btn btn-delete-goal" data-id="${goal.id}" aria-label="Delete Goal" style="color: #FF453A;">
-                        <span class="material-symbols-rounded">delete</span>
-                    </button>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary);">
-                    <span>Target: ${fmt(goal.target)}</span>
-                    <span>Date: ${String(new Date(goal.date).getDate()).padStart(2, '0') + '/' + String(new Date(goal.date).getMonth() + 1).padStart(2, '0') + '/' + new Date(goal.date).getFullYear()}</span>
-                </div>
-                <div style="width: 100%; height: 8px; background: var(--border-color); border-radius: var(--radius-full); overflow: hidden; margin-top: 4px;">
-                    <div style="width: ${pct}%; height: 100%; background: var(--accent-gradient); border-radius: var(--radius-full); transition: width 0.5s ease;"></div>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-                    <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">${pct}% Saved (${fmt(goal.current)})</span>
-                    <span style="font-size: 12px; font-weight: 600; color: ${remaining <= 0 ? '#30D158' : 'var(--text-secondary)'};">${remainingText}</span>
-                </div>
-                <div style="display: flex; gap: 8px; margin-top: 8px;">
-                    <button class="btn-primary btn-add-funds" data-id="${goal.id}" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; flex: 1;">+ Add Funds</button>
-                </div>
-            `;
-
-            // Delete action
-            card.querySelector('.btn-delete-goal').addEventListener('click', async () => {
-                const confirmed = await window.showConfirm("Are you sure you want to delete this goal?", "Delete Goal");
-                if (confirmed) {
-                    const list = getGoals();
-                    const filtered = list.filter(g => g.id !== goal.id);
-                    saveGoals(filtered);
-                    renderGoals();
-                    window.showToast?.("Goal removed", "delete");
-                }
-            });
-
-            // Add funds action
-            card.querySelector('.btn-add-funds').addEventListener('click', async () => {
-                const amt = await window.showPrompt(`How much would you like to add to "${goal.name}"?`, "Add Funds");
-                if (amt) {
-                    const parsed = parseFloat(amt);
-                    if (!isNaN(parsed) && parsed > 0) {
-                        const list = getGoals();
-                        const targetGoal = list.find(g => g.id === goal.id);
-                        if (targetGoal) {
-                            targetGoal.current += parsed;
-                            saveGoals(list);
-                            renderGoals();
-                            window.showToast?.(`Added ${fmt(parsed)} to goal!`, "savings");
-                        }
-                    } else {
-                        await window.showAlert("Please enter a valid positive number", "Invalid Amount");
-                    }
-                }
-            });
-
-            goalsList.appendChild(card);
-        });
-    }
-
-    // Refresh goals list on navigation drawer click
-    document.querySelectorAll('.drawer-item').forEach(item => {
-        item.addEventListener('click', () => {
-            if (item.getAttribute('data-target') === 'goals-view') {
-                renderGoals();
-            }
-        });
-    });
-
-
-    // ==========================================
     // 4. CUSTOM WALLETS SYSTEM
     // ==========================================
     const walletsList = document.getElementById('wallets-list');
@@ -375,89 +214,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (txCategorySelect) {
-        txCategorySelect.addEventListener('change', updateSmartTags);
-        // Initial setup
-        setTimeout(updateSmartTags, 300);
-    }
-
-
-    // ==========================================
-    // 7. ADVANCED FILTERS INTEGRATION
-    // ==========================================
-    const filterCategory = document.getElementById('filter-category');
-    const filterWallet = document.getElementById('filter-wallet');
-    const filterMinAmt = document.getElementById('filter-min-amt');
-    const filterMaxAmt = document.getElementById('filter-max-amt');
-    const filterStartDate = document.getElementById('filter-start-date');
-    const filterEndDate = document.getElementById('filter-end-date');
-    const filterFavorites = document.getElementById('filter-favorites');
-
-    function applyPremiumFilters() {
-        if (typeof window.applyFiltersAndSort !== 'function' || !window.currentExpenses) return;
-
-        let filtered = [...window.currentExpenses];
-
-        // 1. Category Filter
-        const cat = filterCategory?.value || 'all';
-        if (cat !== 'all') {
-            filtered = filtered.filter(tx => tx.category === cat);
-        }
-
-        // 2. Wallet Filter
-        const wal = filterWallet?.value || 'all';
-        if (wal !== 'all') {
-            filtered = filtered.filter(tx => tx.wallet === wal);
-        }
-
-        // 3. Amount Filter
-        const min = parseFloat(filterMinAmt?.value);
-        const max = parseFloat(filterMaxAmt?.value);
-        if (!isNaN(min)) filtered = filtered.filter(tx => tx.amount >= min);
-        if (!isNaN(max)) filtered = filtered.filter(tx => tx.amount <= max);
-
-        // 4. Date Range Filter
-        const start = filterStartDate?.value;
-        const end = filterEndDate?.value;
-        if (start) filtered = filtered.filter(tx => tx.date >= start);
-        if (end) filtered = filtered.filter(tx => tx.date <= end);
-
-        // 5. Favorites Filter
-        if (filterFavorites?.checked) {
-            filtered = filtered.filter(tx => tx.favorite);
-        }
-
-        // 6. Base Sort
-        const sortBy = document.getElementById('sort-by')?.value || 'date-desc';
-        filtered.sort((a, b) => {
-            if (sortBy === 'date-desc') return b.timestamp - a.timestamp;
-            if (sortBy === 'date-asc') return a.timestamp - b.timestamp;
-            if (sortBy === 'amount-desc') return b.amount - a.amount;
-            if (sortBy === 'amount-asc') return a.amount - b.amount;
-            return 0;
+    // Expose as a global hook for the category picker to call
+    window._updateSmartTagsForCategory = function(categoryValue) {
+        if (!smartTagsContainer) return;
+        smartTagsContainer.innerHTML = '';
+        const cat = categoryValue || (txCategorySelect ? txCategorySelect.value : '');
+        const tags = SMART_TAGS[cat] || [];
+        const txTagsInputLocal = document.getElementById('tx-tags');
+        tags.forEach(tag => {
+            const chip = document.createElement('span');
+            chip.className = 'filter-chip';
+            chip.style.fontSize = '11px';
+            chip.style.padding = '4px 8px';
+            chip.style.cursor = 'pointer';
+            chip.style.margin = '0';
+            chip.textContent = '#' + tag;
+            chip.addEventListener('click', () => {
+                if (!txTagsInputLocal) return;
+                const current = txTagsInputLocal.value.split(',').map(t => t.trim()).filter(t => t);
+                if (!current.includes(tag)) {
+                    current.push(tag);
+                    txTagsInputLocal.value = current.join(', ');
+                }
+            });
+            smartTagsContainer.appendChild(chip);
         });
-
-        // Render output list
-        if (window.renderList && window.allTransactionsList) {
-            window.renderList(filtered, window.allTransactionsList);
-        }
-    }
-
-    // Attach listeners
-    [filterCategory, filterWallet, filterMinAmt, filterMaxAmt, filterStartDate, filterEndDate, filterFavorites]
-    .forEach(el => {
-        if (el) {
-            el.addEventListener('input', applyPremiumFilters);
-            el.addEventListener('change', applyPremiumFilters);
-        }
-    });
-
-    // Override the base trigger so advanced filters apply when sort panel toggles or inputs change
-    const baseApply = window.applyFiltersAndSort;
-    window.applyFiltersAndSort = function() {
-        if (typeof baseApply === 'function') baseApply();
-        applyPremiumFilters();
     };
+
+    // Initial setup on load
+    setTimeout(() => window._updateSmartTagsForCategory && window._updateSmartTagsForCategory(txCategorySelect?.value), 400);
+
+
+    // ==========================================
+    // 7. FILTER LISTENERS (category + payment)
+    // ==========================================
+    // Listeners are attached directly by app.js applyFiltersAndSort.
+    // No override needed here — keeping it clean.
 
 
     // ==========================================
@@ -503,22 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 text: `Your purchase of <strong>${window.formatCurrency(highExpense.amount)}</strong> in "${highExpense.category}" accounts for over 40% of your total monthly budget.`
             });
         }
-
-        // 3. Smart savings goal projection
-        const goals = getGoals();
-        goals.forEach(goal => {
-            const rem = goal.target - goal.current;
-            if (rem > 0) {
-                const daysLeft = Math.ceil((new Date(goal.date) - new Date()) / (1000 * 60 * 60 * 24));
-                if (daysLeft > 0) {
-                    const requiredDaily = rem / daysLeft;
-                    aiInsights.push({
-                        emoji: '🎯',
-                        text: `To achieve <strong>"${goal.name}"</strong> by ${String(new Date(goal.date).getDate()).padStart(2, '0') + '/' + String(new Date(goal.date).getMonth() + 1).padStart(2, '0') + '/' + new Date(goal.date).getFullYear()}, you need to save an average of <strong>${window.formatCurrency(requiredDaily)}/day</strong>.`
-                    });
-                }
-            }
-        });
 
         // 4. Tag frequency anomaly
         const tagsMap = {};

@@ -8,11 +8,10 @@ Welcome to **ExpenseFlow**, your premium, offline-first personal finance and exp
 1. [Getting Started](#1-getting-started)
 2. [Adding Transactions](#2-adding-transactions)
 3. [Managing Wallets & Accounts](#3-managing-wallets--accounts)
-4. [Setting Savings Goals](#4-setting-savings-goals)
-5. [Setting Budgets](#5-setting-budgets)
-6. [Analytics & Insights](#6-analytics--insights)
-7. [Calendar & Reports](#7-calendar--reports)
-8. [Security & Settings](#8-security--settings)
+4. [Setting Budgets](#5-setting-budgets)
+5. [Analytics & Insights](#6-analytics--insights)
+6. [Calendar & Reports](#7-calendar--reports)
+7. [Security & Settings](#8-security--settings)
 
 ---
 
@@ -47,15 +46,6 @@ You don't just keep money in one place. ExpenseFlow lets you track your Cash, Ba
   3. Enter a starting balance.
   4. Now, whenever you add a transaction, you can select which Wallet the money was taken from or added to. The app automatically calculates the live balance of every wallet!
 
----
-
-## 4. Setting Savings Goals
-Whether you are saving for a new laptop or a vacation, ExpenseFlow helps you visualize your progress.
-* **Purpose:** Stay motivated by tracking money saved towards specific targets.
-* **How to use it:**
-  1. Go to **Savings Goals** in the menu.
-  2. Tap **"Create Goal"**, enter a name (e.g., "New iPhone"), the target amount, and your deadline.
-  3. As you save money, tap the **"+ Add Funds"** button on the goal card to log your deposits. The progress bar will fill up beautifully as you get closer to your target!
 
 ---
 
