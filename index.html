@@ -669,42 +669,14 @@
                                 <label>Time</label>
                                 <!-- Hidden 24hr value for form logic -->
                                 <input type="hidden" id="tx-time" required>
-                                <!-- Custom 12hr picker -->
-                                <div class="time-picker-row">
-                                    <select id="tx-time-hour" class="glass-input time-seg" aria-label="Hour">
-                                        <option value="12">12</option>
-                                        <option value="01">01</option>
-                                        <option value="02">02</option>
-                                        <option value="03">03</option>
-                                        <option value="04">04</option>
-                                        <option value="05">05</option>
-                                        <option value="06">06</option>
-                                        <option value="07">07</option>
-                                        <option value="08">08</option>
-                                        <option value="09">09</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                    </select>
-                                    <span class="time-colon">:</span>
-                                    <select id="tx-time-min" class="glass-input time-seg" aria-label="Minute">
-                                        <option value="00">00</option>
-                                        <option value="05">05</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
-                                        <option value="20">20</option>
-                                        <option value="25">25</option>
-                                        <option value="30">30</option>
-                                        <option value="35">35</option>
-                                        <option value="40">40</option>
-                                        <option value="45">45</option>
-                                        <option value="50">50</option>
-                                        <option value="55">55</option>
-                                    </select>
-                                    <select id="tx-time-ampm" class="glass-input time-seg" aria-label="AM/PM">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
-                                    </select>
-                                </div>
+                                <!-- Hidden 24hr value for form logic -->
+                                <input type="hidden" id="tx-time" required>
+                                <!-- Modern time picker trigger -->
+                                <button type="button" id="time-picker-trigger" class="cat-picker-trigger">
+                                    <span class="material-symbols-rounded cat-trigger-emoji" style="font-size: 24px; color: var(--accent-color);">schedule</span>
+                                    <span id="time-picker-display" class="cat-trigger-name">12:00 PM</span>
+                                    <span class="material-symbols-rounded cat-trigger-chevron">expand_more</span>
+                                </button>
                             </div>
                         </div>
 
@@ -952,12 +924,64 @@
             </div>
         </div>
     </div>
+
+    <!-- ============================
+         TIME PICKER BOTTOM SHEET
+         ============================ -->
+    <div id="time-picker-sheet" class="cat-sheet-overlay">
+        <div class="cat-sheet-backdrop" id="time-sheet-backdrop"></div>
+        <div class="cat-sheet-content">
+            <!-- Handle bar -->
+            <div class="cat-sheet-handle"></div>
+
+            <!-- Header -->
+            <div class="cat-sheet-header">
+                <h3>Select Time</h3>
+                <button type="button" class="icon-btn" id="time-sheet-close">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+
+            <!-- Time Picker Layout -->
+            <div class="time-sheet-layout">
+                <!-- AM/PM Toggle -->
+                <div class="time-ampm-toggle">
+                    <button type="button" class="time-ampm-btn selected" data-value="AM">AM</button>
+                    <button type="button" class="time-ampm-btn" data-value="PM">PM</button>
+                </div>
+
+                <div class="time-grids-container">
+                    <!-- Hours Grid -->
+                    <div class="time-grid-section">
+                        <p class="time-grid-label">Hour</p>
+                        <div class="time-grid" id="time-grid-hour">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Minutes Grid -->
+                    <div class="time-grid-section">
+                        <p class="time-grid-label">Minute</p>
+                        <div class="time-grid" id="time-grid-minute">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" id="time-confirm-btn" class="cat-custom-save-btn" style="margin-top: var(--space-md);">
+                    <span class="material-symbols-rounded">check_circle</span>
+                    Confirm Time
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="db.js"></script>
     <script src="app.js"></script>
     <script src="phase4.js"></script>
     <script src="phase5.js"></script>
     <script src="phase7.js"></script>
     <script src="category-picker.js"></script>
+    <script src="time-picker.js"></script>
     <script>
         // Remove preloader when all assets are loaded
         window.addEventListener('load', () => {

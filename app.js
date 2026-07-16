@@ -308,42 +308,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const txAmountInput = document.getElementById('tx-amount');
     const txDateInput = document.getElementById('tx-date');
     const txTimeInput = document.getElementById('tx-time');        // hidden 24hr input
-    const txTimeHour = document.getElementById('tx-time-hour');
-    const txTimeMin  = document.getElementById('tx-time-min');
-    const txTimeAmpm = document.getElementById('tx-time-ampm');
 
-    // ─── 12hr ↔ 24hr helpers ──────────────────────────────────
-    function syncTimeHidden() {
-        const h12 = parseInt(txTimeHour.value, 10);
-        const min = txTimeMin.value;
-        const ampm = txTimeAmpm.value;
-        let h24 = h12 % 12; // 12 AM → 0, 12 PM → 12
-        if (ampm === 'PM') h24 += 12;
-        txTimeInput.value = String(h24).padStart(2, '0') + ':' + min;
-    }
-
+    // ─── Delegate to new Time Picker module ───────────────────
     function setTimePicker(time24) {
-        // time24 = "HH:MM"
-        const parts = (time24 || '').split(':');
-        let h = parseInt(parts[0], 10);
-        const m = parts[1] || '00';
-        const ampm = h >= 12 ? 'PM' : 'AM';
-        let h12 = h % 12;
-        if (h12 === 0) h12 = 12;
-        // Select hour option
-        txTimeHour.value = String(h12).padStart(2, '0');
-        // Select nearest 5-min minute
-        const nearest = Math.round(parseInt(m, 10) / 5) * 5;
-        txTimeMin.value = String(Math.min(nearest, 55)).padStart(2, '0');
-        txTimeAmpm.value = ampm;
-        syncTimeHidden();
+        if (window.timePicker) window.timePicker.setValue(time24);
     }
-
-    if (txTimeHour) txTimeHour.addEventListener('change', syncTimeHidden);
-    if (txTimeMin)  txTimeMin.addEventListener('change', syncTimeHidden);
-    if (txTimeAmpm) txTimeAmpm.addEventListener('change', syncTimeHidden);
-    // Initialise hidden input immediately
-    syncTimeHidden && setTimeout(syncTimeHidden, 0);
     const txCategoryInput = document.getElementById('tx-category');
     const txPaymentMethodInput = document.getElementById('tx-payment-method');
     const txWalletInput = document.getElementById('tx-wallet');
