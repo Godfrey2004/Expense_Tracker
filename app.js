@@ -130,33 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Theme Toggle
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement;
-    const themeColorMeta = document.getElementById('theme-color-meta');
-    
-    // Check for saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
-    });
-    
-    function setTheme(theme) {
-        htmlElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        
-        const icon = themeToggleBtn.querySelector('.material-symbols-rounded');
-        if (theme === 'dark') {
-            icon.textContent = 'light_mode';
-            themeColorMeta.setAttribute('content', '#09090b');
-        } else {
-            icon.textContent = 'dark_mode';
-            themeColorMeta.setAttribute('content', '#f4f4f5');
-        }
-    }
+    // removed theme toggle logic
 
     // Side Drawer
     const menuBtn = document.getElementById('menu-btn');
@@ -614,10 +588,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let categoryChartInst = null;
 
     function getChartDefaults() {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         return {
-            textColor: isDark ? '#a1a1aa' : '#52525b',
-            gridColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+            textColor: '#52525b',
+            gridColor: 'rgba(0,0,0,0.06)',
         };
     }
 

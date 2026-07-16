@@ -161,24 +161,7 @@ window.showPrompt = function(message, defaultValue = "", title = "Prompt") {
 // ─── Settings UI Logic ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Theme Toggle (Settings page)
-    const themeItem = document.getElementById('setting-theme');
-    const themeStatus = document.getElementById('theme-status-text');
-    
-    function updateThemeStatus() {
-        const t = document.documentElement.getAttribute('data-theme');
-        if (themeStatus) themeStatus.textContent = t === 'dark' ? 'Dark Mode' : 'Light Mode';
-    }
-    
-    updateThemeStatus(); // initial call
-    
-    if (themeItem) {
-        themeItem.addEventListener('click', () => {
-            // Trigger the existing top-bar theme toggle button
-            document.getElementById('theme-toggle')?.click();
-            updateThemeStatus();
-        });
-    }
+    // Theme setting has been removed
 
     // 2. Currency Selection
     const currSelect = document.getElementById('currency-select');

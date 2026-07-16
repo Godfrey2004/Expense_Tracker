@@ -26,31 +26,8 @@
     --z-modal: 300;
 }
 
-/* Dark Theme */
-[data-theme="dark"] {
-    --bg-base: #09090b;
-    --bg-surface: #18181b;
-    --bg-glass: rgba(24, 24, 27, 0.7);
-    --bg-glass-heavy: rgba(9, 9, 11, 0.85);
-
-    --text-primary: #f4f4f5;
-    --text-secondary: #a1a1aa;
-    --text-muted: #52525b;
-
-    --border-color: rgba(255, 255, 255, 0.08);
-    --border-glass: rgba(255, 255, 255, 0.1);
-
-    --accent-color: #8b5cf6;
-    --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
-    --accent-glow: rgba(139, 92, 246, 0.3);
-
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
-    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.4);
-}
-
-/* Light Theme */
-[data-theme="light"] {
+/* Base Theme Variables */
+:root {
     --bg-base: #f4f4f5;
     --bg-surface: #ffffff;
     --bg-glass: rgba(255, 255, 255, 0.7);
@@ -73,13 +50,7 @@
 }
 
 /* Royal Velvet Theme */
-[data-theme-accent="royal-velvet"][data-theme="dark"] {
-    --accent-color: #6366f1;
-    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
-    --accent-glow: rgba(99, 102, 241, 0.3);
-    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
-}
-[data-theme-accent="royal-velvet"][data-theme="light"] {
+[data-theme-accent="royal-velvet"] {
     --accent-color: #4f46e5;
     --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #db2777 100%);
     --accent-glow: rgba(79, 70, 229, 0.25);
@@ -87,13 +58,7 @@
 }
 
 /* Emerald Forest Theme */
-[data-theme-accent="emerald-forest"][data-theme="dark"] {
-    --accent-color: #10b981;
-    --accent-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-    --accent-glow: rgba(16, 185, 129, 0.3);
-    --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.4);
-}
-[data-theme-accent="emerald-forest"][data-theme="light"] {
+[data-theme-accent="emerald-forest"] {
     --accent-color: #059669;
     --accent-gradient: linear-gradient(135deg, #059669 0%, #0891b2 100%);
     --accent-glow: rgba(5, 150, 105, 0.25);
@@ -101,13 +66,7 @@
 }
 
 /* Rose Petal Theme */
-[data-theme-accent="rose-petal"][data-theme="dark"] {
-    --accent-color: #f43f5e;
-    --accent-gradient: linear-gradient(135deg, #f43f5e 0%, #fbbf24 100%);
-    --accent-glow: rgba(244, 63, 94, 0.3);
-    --shadow-glow: 0 0 20px rgba(244, 63, 94, 0.4);
-}
-[data-theme-accent="rose-petal"][data-theme="light"] {
+[data-theme-accent="rose-petal"] {
     --accent-color: #e11d48;
     --accent-gradient: linear-gradient(135deg, #e11d48 0%, #d97706 100%);
     --accent-glow: rgba(225, 29, 72, 0.25);
