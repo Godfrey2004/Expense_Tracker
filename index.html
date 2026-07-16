@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
@@ -667,9 +667,47 @@
                             </div>
                             <div class="input-group">
                                 <label>Time</label>
-                                <input type="time" id="tx-time" class="glass-input" required>
+                                <!-- Hidden 24hr value for form logic -->
+                                <input type="hidden" id="tx-time" required>
+                                <!-- Custom 12hr picker -->
+                                <div class="time-picker-row">
+                                    <select id="tx-time-hour" class="glass-input time-seg" aria-label="Hour">
+                                        <option value="12">12</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                    </select>
+                                    <span class="time-colon">:</span>
+                                    <select id="tx-time-min" class="glass-input time-seg" aria-label="Minute">
+                                        <option value="00">00</option>
+                                        <option value="05">05</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                        <option value="45">45</option>
+                                        <option value="50">50</option>
+                                        <option value="55">55</option>
+                                    </select>
+                                    <select id="tx-time-ampm" class="glass-input time-seg" aria-label="AM/PM">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
 
                                                 <div class="input-group">
                             <label>Category</label>

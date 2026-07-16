@@ -1748,3 +1748,35 @@ input[type="radio"]:checked + .tx-type-label {
 .cat-custom-save-btn .material-symbols-rounded {
     font-size: 18px;
 }
+
+/* ============================
+   12-HOUR TIME PICKER
+   ============================ */
+.time-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.time-seg {
+    flex: 1;
+    padding: var(--space-md) 4px !important;
+    text-align: center;
+    font-size: 15px !important;
+    font-weight: 600;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: none !important;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.time-colon {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    line-height: 1;
+    padding-bottom: 2px;
+}
